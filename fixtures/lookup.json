@@ -1,0 +1,1 @@
+{"products": [{"id": "gid://example/1", "title": "Trail Runner", "handle": "trail-runner", "variants": [{"url": "https://shop1.example.com/products/trail-runner?variant=1&utm_source=shopify", "price": {"amount": 7900, "currency": "USD"}, "list_price": {"amount": 10000, "currency": "USD"}, "availability": {"available": true}}]}], "messages": []}

@@ -1,0 +1,20 @@
+{
+ "taken": "2026-11-03",
+ "pages": {
+  "shoes.example.com/products/trail-runner": {
+   "ads": 3,
+   "type": "product",
+   "fingerprint": "aaa"
+  },
+  "shoes.example.com/collections/sale": {
+   "ads": 1,
+   "type": "collection",
+   "fingerprint": "bb2"
+  },
+  "shoes.example.com/products/road-racer": {
+   "ads": 1,
+   "type": "product",
+   "fingerprint": "ddd"
+  }
+ }
+}

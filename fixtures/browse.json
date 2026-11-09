@@ -1,0 +1,64 @@
+{
+ "data": [
+  {
+   "id": "a1",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-10-01"
+  },
+  {
+   "id": "a2",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-10-12"
+  },
+  {
+   "id": "a3",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-10-20"
+  },
+  {
+   "id": "a4",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-10-28"
+  },
+  {
+   "id": "a5",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-10-29"
+  },
+  {
+   "id": "a6",
+   "advertiser": {
+    "id": "adv-1",
+    "name": "Example Shoes"
+   },
+   "media_type": "image",
+   "is_active": true,
+   "started_at": "2026-11-01"
+  }
+ ]
+}
