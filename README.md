@@ -11,3 +11,5 @@ Python 3.9 or newer, standard library only. You need a Firecrawl API key (FIRECR
 A live run with eight opened ads uses about 955 Firecrawl credits for the Alexandria calls plus the page reads. Use --open 3 for a cheaper run.
 Without --redact the digest prints real advertiser names, page addresses and screenshot links: keep it private.
 The fixtures contain invented data on example domains.
+
+License: MIT.
