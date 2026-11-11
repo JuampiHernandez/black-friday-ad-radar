@@ -25,9 +25,14 @@ class RadarTests(unittest.TestCase):
         self.assertAlmostEqual(self.r["offers"][0]["lift"], 3.0)
 
     def test_two_ads_one_page_and_missing_page_counted(self):
-        self.assertEqual(self.r["opened"], 3)
-        self.assertEqual(sorted(self.r["pages"]), ["shop1.example.com/products/trail-runner", "shop2.example.com/collections/sale"])
-        self.assertEqual(self.r["pages"]["shop2.example.com/collections/sale"]["ads"], 2)
+        r = radar.build("example_vertical", "black friday", "US", 4, 14, fixtures=FX)
+        self.assertEqual(r["opened"], 4)
+        self.assertEqual(sorted(r["pages"]), ["shop1.example.com/products/trail-runner", "shop2.example.com/collections/sale"])
+        self.assertEqual(r["pages"]["shop2.example.com/collections/sale"]["ads"], 2)
+
+    def test_each_advertiser_is_opened_once_before_a_second_ad_from_the_same_one(self):
+        self.assertEqual((self.r["opened"], self.r["no_page"]), (3, 1))
+        self.assertEqual(self.r["pages"]["shop2.example.com/collections/sale"]["ads"], 1)
 
     def test_catalog_price_and_was_price_attached_to_product_page_only(self):
         p = self.r["pages"]

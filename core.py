@@ -1,7 +1,7 @@
 import json, os, sys, time, urllib.error, urllib.parse, urllib.request, uuid
 
 API = "https://api.firecrawl.dev/v2"
-TRACKING = ("utm_", "fbclid", "gclid", "ttclid", "msclkid", "mc_", "_hs", "_gsid", "variant")
+TRACKING = ("utm_", "fbclid", "gclid", "ttclid", "msclkid", "mc_", "_hs", "_gsid")
 
 
 def http(url, method="GET", body=None, headers=None, retries=4):

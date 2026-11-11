@@ -3,7 +3,7 @@
 
 Steps (all data calls go through Firecrawl Alexandria):
   1. Upspring ads/search: live ads that mention your keyword, with advertiser and countries
-  2. keep ads shown in your country, take the strongest by impressions score
+  2. keep ads shown in your country, take the strongest by impressions score (one per advertiser first)
   3. Upspring ads/breakdown: which offer types are over-represented this week
   4. Upspring ads/detail: the landing page of each strong ad
   5. Shopify catalog/lookup_catalog: price and was-price for the product pages that are on Shopify (one call)
@@ -39,11 +39,11 @@ def offer_lift(week, everything):
     return sorted([r for r in rows if r["lift"]], key=lambda r: -r["lift"])
 
 
-def price_by_page(urls, fixtures):
+def price_by_page(urls, fixtures, country="US"):
     """Shopify catalog lookup for many product URLs in one call. Returns {page_key: {price, was}} for the pages Shopify knows."""
     if not urls:
         return {}, 0
-    data, credits = get("catalog/lookup_catalog", {"product_ids": urls}, fixtures, "lookup", "shopify")
+    data, credits = get("catalog/lookup_catalog", dict({"product_ids": urls}, **({} if country == "ALL" else {"country": country})), fixtures, "lookup", "shopify")
     found = {}
     for product in data.get("products", []):
         variant = (product.get("variants") or [{}])[0]
@@ -66,7 +66,12 @@ def build(category, query, country, n_open, days, pages=True, fixtures=None):
     everything, c = get("ads/breakdown", {"group_by": "offer_type", "vertical": category}, fixtures, "breakdown_all"); credits += c
     out = {"category": category, "query": query, "country": country, "days": days, "searched": len(found), "countries": dict(countries.most_common()), "kept": len(kept),
            "advertisers": len({(ad.get("advertiser") or {}).get("id") for ad in kept}), "scored": len(scored), "offers": offer_lift(week, everything)[:3], "opened": 0, "pages": {}, "no_page": 0}
-    for ad in scored[:n_open]:
+    seen, first, rest = set(), [], []
+    for ad in scored:
+        who = (ad.get("advertiser") or {}).get("id")
+        (rest if who in seen else first).append(ad)
+        seen.add(who)
+    for ad in (first + rest)[:n_open]:
         try:
             detail, c = get("ads/detail", {"id": ad["id"]}, fixtures, "detail_%s" % ad["id"]); credits += c
         except RuntimeError:
@@ -80,7 +85,7 @@ def build(category, query, country, n_open, days, pages=True, fixtures=None):
         key = page_key(url)
         page = out["pages"].setdefault(key, {"url": clean(url), "type": page_type(key), "ads": 0, "advertiser": (ad.get("advertiser") or {}).get("name"), "offer_on_ad": (detail.get("offer") or {}).get("text")})
         page["ads"] += 1
-    prices, c = price_by_page([p["url"] for p in out["pages"].values() if p["type"] == "product"], fixtures); credits += c
+    prices, c = price_by_page([p["url"] for p in out["pages"].values() if p["type"] == "product"], fixtures, country); credits += c
     for key, page in out["pages"].items():
         page["catalog"] = prices.get(key)
     if pages and not fixtures:
